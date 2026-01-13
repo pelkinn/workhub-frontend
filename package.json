@@ -1,0 +1,30 @@
+{
+  "name": "workhub-frontend",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "nuxt lint",
+    "lint:fix": "nuxt lint --fix"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@pinia/nuxt": "^0.11.3",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
+    "nuxt": "^4.2.2",
+    "pinia": "^3.0.4",
+    "qs": "^6.14.1",
+    "sass": "^1.97.2",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4",
+    "vuetify": "^3.11.6"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.12.1"
+  }
+}
