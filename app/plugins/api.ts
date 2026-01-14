@@ -1,4 +1,4 @@
-import { getCookie, getResponseHeader, setCookie } from "h3";
+import { getCookie, getResponseHeader } from "h3";
 import type { FetchContext } from "ofetch";
 import qs from "qs";
 

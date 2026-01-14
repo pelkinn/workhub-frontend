@@ -5,9 +5,9 @@ import type { UserProfile } from "~/types/auth";
 export const useUserStore = defineStore("user", () => {
   const user = ref<UserProfile | null>(null);
   const isAuthenticated = ref(false);
+  const token = useCookie("accessToken");
 
-  const currentUser = computed(() => user.value);
-  const isLoggedIn = computed(() => isAuthenticated.value);
+  const isLoggedIn = computed(() => token.value);
 
   function setUser(newUser: UserProfile | null) {
     user.value = newUser;
@@ -19,7 +19,9 @@ export const useUserStore = defineStore("user", () => {
     const result = await auth.login({ email, password });
 
     if ("accessToken" in result) {
-      await fetchUser();
+      user.value = result.user;
+      isAuthenticated.value = true;
+      token.value = result.accessToken;
     }
 
     return result;
@@ -55,7 +57,6 @@ export const useUserStore = defineStore("user", () => {
   return {
     user,
     isAuthenticated,
-    currentUser,
     isLoggedIn,
     setUser,
     login,

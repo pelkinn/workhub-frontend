@@ -1,4 +1,5 @@
 import { AuthService } from "~/services/AuthService";
+import { ProjectService } from "~/services/ProjectService";
 
 export const useServices = () => {
   const { $api } = useNuxtApp();
@@ -6,5 +7,6 @@ export const useServices = () => {
 
   return {
     auth: new AuthService($api, runtimeConfig),
+    project: new ProjectService($api, runtimeConfig),
   };
 };

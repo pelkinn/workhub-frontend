@@ -1,14 +1,14 @@
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="6" lg="4">
-        <v-card>
-          <v-card-title class="text-h5 text-center pa-6">
+  <VContainer class="fill-height" fluid>
+    <VRow align="center" justify="center">
+      <VCol cols="12" sm="8" md="6" lg="4">
+        <VCard>
+          <VCardTitle class="text-h5 text-center pa-6">
             Регистрация
-          </v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="handleSubmit">
-              <v-text-field
+          </VCardTitle>
+          <VCardText>
+            <VForm @submit.prevent="handleSubmit">
+              <VTextField
                 v-model="v$.email.$model"
                 label="Email"
                 type="email"
@@ -17,7 +17,7 @@
                 variant="outlined"
                 class="mb-4"
               />
-              <v-text-field
+              <VTextField
                 v-model="v$.password.$model"
                 label="Пароль"
                 type="password"
@@ -26,7 +26,7 @@
                 variant="outlined"
                 class="mb-4"
               />
-              <v-text-field
+              <VTextField
                 v-model="v$.name.$model"
                 label="Имя (необязательно)"
                 :error-messages="getErrorMessage(v$.name)"
@@ -34,7 +34,7 @@
                 variant="outlined"
                 class="mb-4"
               />
-              <v-btn
+              <VBtn
                 type="submit"
                 color="primary"
                 block
@@ -42,16 +42,16 @@
                 :loading="loading"
               >
                 Зарегистрироваться
-              </v-btn>
-            </v-form>
-          </v-card-text>
-          <v-card-actions class="justify-center pb-4">
-            <v-btn variant="text" to="/login"> Уже есть аккаунт? Войти </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+              </VBtn>
+            </VForm>
+          </VCardText>
+          <VCardActions class="justify-center pb-4">
+            <VBtn variant="text" to="/login"> Уже есть аккаунт? Войти </VBtn>
+          </VCardActions>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

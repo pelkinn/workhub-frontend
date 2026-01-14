@@ -1,7 +1,7 @@
 <template>
-  <v-app-bar elevation="2">
-    <v-container class="d-flex align-center" fluid>
-      <v-app-bar-title class="d-flex align-center">
+  <VAppBar elevation="2">
+    <VContainer class="d-flex align-center" fluid>
+      <VAppBarTitle class="d-flex align-center">
         <NuxtLink to="/" class="d-flex align-center text-decoration-none">
           <img
             :src="logoUrl"
@@ -10,28 +10,33 @@
             style="height: 40px; width: 40px"
           />
         </NuxtLink>
-      </v-app-bar-title>
+      </VAppBarTitle>
 
-      <v-spacer />
+      <VSpacer />
 
-      <v-btn
+      <VBtn
         icon
         variant="text"
         class="mr-2"
         @click="theme.toggle(['light', 'dark'])"
       >
-        <v-icon>{{ themeIcon }}</v-icon>
-      </v-btn>
+        <VIcon>{{ themeIcon }}</VIcon>
+      </VBtn>
 
-      <v-btn v-if="!userStore.isLoggedIn" color="secondary" to="/login">
+      <VBtn v-if="!userStore.isLoggedIn" color="secondary" to="/login">
         Войти
-      </v-btn>
+      </VBtn>
 
-      <span v-else class="text-body-1">
-        {{ userStore.currentUser?.name || userStore.currentUser?.email }}
-      </span>
-    </v-container>
-  </v-app-bar>
+      <template v-else>
+        <VBtn color="primary" variant="text" to="/projects" class="mr-2">
+          Мои проекты
+        </VBtn>
+        <span class="text-body-1">
+          {{ userStore.user?.name || userStore.user?.email }}
+        </span>
+      </template>
+    </VContainer>
+  </VAppBar>
 </template>
 
 <script setup lang="ts">

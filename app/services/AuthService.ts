@@ -13,7 +13,7 @@ export class AuthService {
 
     if ("access_token" in result) {
       const { access_token: accessToken } = result;
-      return { accessToken };
+      return { accessToken, user: result.user };
     }
 
     return result;

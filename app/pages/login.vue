@@ -45,6 +45,14 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-snackbar
+      v-model="snackbar.show"
+      :text="snackbar.text"
+      location="top right"
+      color="error"
+      timeout="5000"
+    />
   </v-container>
 </template>
 
@@ -54,7 +62,7 @@ import { required, email, minLength, helpers } from "@vuelidate/validators";
 import type { Login } from "@/types/auth";
 import { getErrorMessage } from "@/utils/validator";
 
-const { auth } = useServices();
+const { login } = useUserStore();
 
 const form = reactive<Login>({
   email: "",
@@ -62,6 +70,11 @@ const form = reactive<Login>({
 });
 
 const loading = ref(false);
+
+const snackbar = reactive({
+  show: false,
+  text: "",
+});
 
 const rules = {
   email: {
@@ -82,13 +95,13 @@ const handleSubmit = async () => {
 
   loading.value = true;
   try {
-    const result = await auth.login(form);
-    if ("accessToken" in result) {
-      // Успешная авторизация
-      await navigateTo("/");
-    }
-  } catch (error) {
-    console.error("Ошибка авторизации:", error);
+    await login(form.email, form.password);
+    await navigateTo("/");
+  } catch (error: unknown) {
+    const message = (error as { response: { data: { message: string } } })
+      ?.response?.data?.message;
+    snackbar.text = message || "Произошла ошибка при авторизации";
+    snackbar.show = true;
   } finally {
     loading.value = false;
   }
