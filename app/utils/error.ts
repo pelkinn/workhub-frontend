@@ -3,10 +3,8 @@ export const getErrorMessageResponse = (
   defaultMessage = "Произошла ошибка"
 ) => {
   const errorData = err as {
-    response?: { data?: { message?: string } };
+    data: { message?: string } | undefined;
     message?: string;
   };
-  return (
-    errorData?.response?.data?.message || errorData?.message || defaultMessage
-  );
+  return errorData?.data?.message || errorData?.message || defaultMessage;
 };

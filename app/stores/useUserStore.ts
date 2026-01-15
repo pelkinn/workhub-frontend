@@ -52,6 +52,7 @@ export const useUserStore = defineStore("user", () => {
 
   function logout() {
     setUser(null);
+    token.value = null;
   }
 
   return {

@@ -1,31 +1,32 @@
 <template>
   <VDialog v-model="modelValue" max-width="600">
     <VCard>
-      <VCardTitle class="text-h5 pa-6"> Создать проект </VCardTitle>
+      <VCardTitle class="text-h5 pa-6"> Отправить приглашение </VCardTitle>
       <VCardText>
         <VForm @submit.prevent="handleSubmit">
           <VTextField
-            v-model="v$.name.$model"
-            label="Название"
-            :error-messages="getErrorMessage(v$.name)"
-            :error="v$.name.$error"
+            v-model="v$.email.$model"
+            label="Email"
+            type="email"
+            :error-messages="getErrorMessage(v$.email)"
+            :error="v$.email.$error"
             variant="outlined"
             class="mb-4"
           />
-          <VTextarea
-            v-model="v$.description.$model"
-            label="Описание"
-            :error-messages="getErrorMessage(v$.description)"
-            :error="v$.description.$error"
+          <VSelect
+            v-model="v$.role.$model"
+            label="Роль"
+            :items="roleItems"
+            :error-messages="getErrorMessage(v$.role)"
+            :error="v$.role.$error"
             variant="outlined"
-            rows="5"
             class="mb-4"
           />
           <VCardActions>
             <VSpacer />
             <VBtn variant="text" @click="handleCancel"> Отмена </VBtn>
             <VBtn type="submit" color="primary" :loading="loading">
-              Создать
+              Отправить приглашение
             </VBtn>
           </VCardActions>
         </VForm>
@@ -44,10 +45,15 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core";
-import { required, minLength, maxLength, helpers } from "@vuelidate/validators";
-import type { CreateProject } from "@/types/project";
+import { required, email, helpers } from "@vuelidate/validators";
+import type { CreateInvitation } from "@/types/invitation";
+import { MembershipRole } from "@/enums/MembershipRole";
 import { getErrorMessage } from "@/utils/validator";
 import { getErrorMessageResponse } from "@/utils/error";
+
+const props = defineProps<{
+  projectId: string;
+}>();
 
 const modelValue = defineModel<boolean>();
 
@@ -55,7 +61,7 @@ const emit = defineEmits<{
   created: [];
 }>();
 
-const { project: projectService } = useServices();
+const { invitation: invitationService } = useServices();
 
 const loading = ref(false);
 
@@ -65,21 +71,23 @@ const snackbar = ref({
   color: "success" as "success" | "error",
 });
 
-const form = ref<CreateProject>({
-  name: "",
-  description: "",
+const form = ref<CreateInvitation>({
+  email: "",
+  role: MembershipRole.EDITOR,
 });
 
+const roleItems = [
+  { title: "Редактор", value: MembershipRole.EDITOR },
+  { title: "Наблюдатель", value: MembershipRole.VIEWER },
+];
+
 const rules = {
-  name: {
+  email: {
     required: helpers.withMessage("Обязательное поле", required),
-    minLength: helpers.withMessage("Минимум 3 символа", minLength(3)),
-    maxLength: helpers.withMessage("Максимум 500 символов", maxLength(500)),
+    email: helpers.withMessage("Некорректный Email", email),
   },
-  description: {
+  role: {
     required: helpers.withMessage("Обязательное поле", required),
-    minLength: helpers.withMessage("Минимум 3 символа", minLength(3)),
-    maxLength: helpers.withMessage("Максимум 5000 символов", maxLength(5000)),
   },
 };
 
@@ -87,8 +95,8 @@ const v$ = useVuelidate(rules, form);
 
 const handleCancel = () => {
   modelValue.value = false;
-  form.value.name = "";
-  form.value.description = "";
+  form.value.email = "";
+  form.value.role = MembershipRole.EDITOR;
   v$.value.$reset();
 };
 
@@ -98,8 +106,8 @@ const handleSubmit = async () => {
 
   loading.value = true;
   try {
-    await projectService.create(form.value);
-    snackbar.value.text = "Проект успешно создан";
+    await invitationService.create(props.projectId, form.value);
+    snackbar.value.text = "Приглашение успешно отправлено";
     snackbar.value.color = "success";
     snackbar.value.show = true;
     emit("created");
@@ -107,7 +115,7 @@ const handleSubmit = async () => {
   } catch (error: unknown) {
     snackbar.value.text = getErrorMessageResponse(
       error,
-      "Произошла ошибка при создании проекта"
+      "Произошла ошибка при отправке приглашения"
     );
     snackbar.value.color = "error";
     snackbar.value.show = true;
@@ -120,8 +128,8 @@ watch(
   () => modelValue.value,
   (newValue) => {
     if (!newValue) {
-      form.value.name = "";
-      form.value.description = "";
+      form.value.email = "";
+      form.value.role = MembershipRole.EDITOR;
       v$.value.$reset();
     }
   }

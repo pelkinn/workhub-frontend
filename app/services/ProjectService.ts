@@ -1,6 +1,11 @@
 import type { $Fetch } from "nitropack";
 import type { RuntimeConfig } from "nuxt/schema";
-import type { Project, CreateProject, Membership, Task } from "@/types/project";
+import type {
+  Project,
+  CreateProject,
+  Membership,
+  ProjectFull,
+} from "@/types/project";
 
 export class ProjectService {
   constructor(protected api: $Fetch, protected runtimeConfig: RuntimeConfig) {}
@@ -10,7 +15,7 @@ export class ProjectService {
   }
 
   getOne(id: string) {
-    return this.api<Project>(`/projects/${id}`);
+    return this.api<ProjectFull>(`/projects/${id}`);
   }
 
   create(body: CreateProject) {
@@ -24,7 +29,9 @@ export class ProjectService {
     return this.api<Membership[]>(`/projects/${projectId}/memberships`);
   }
 
-  getTasks(projectId: string) {
-    return this.api<Task[]>(`/projects/${projectId}/tasks`);
+  delete(id: string) {
+    return this.api(`/projects/${id}`, {
+      method: "delete",
+    });
   }
 }

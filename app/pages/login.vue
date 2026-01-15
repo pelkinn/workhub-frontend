@@ -1,14 +1,14 @@
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="6" lg="4">
-        <v-card>
-          <v-card-title class="text-h5 text-center pa-6">
+  <VContainer class="fill-height" fluid>
+    <VRow align="center" justify="center">
+      <VCol cols="12" sm="8" md="6" lg="4">
+        <VCard>
+          <VCardTitle class="text-h5 text-center pa-6">
             Авторизация
-          </v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="handleSubmit">
-              <v-text-field
+          </VCardTitle>
+          <VCardText>
+            <VForm @submit.prevent="handleSubmit">
+              <VTextField
                 v-model="v$.email.$model"
                 label="Email"
                 type="email"
@@ -17,7 +17,7 @@
                 variant="outlined"
                 class="mb-4"
               />
-              <v-text-field
+              <VTextField
                 v-model="v$.password.$model"
                 label="Пароль"
                 type="password"
@@ -26,7 +26,7 @@
                 variant="outlined"
                 class="mb-4"
               />
-              <v-btn
+              <VBtn
                 type="submit"
                 color="primary"
                 block
@@ -34,26 +34,26 @@
                 :loading="loading"
               >
                 Войти
-              </v-btn>
-            </v-form>
-          </v-card-text>
-          <v-card-actions class="justify-center pb-4">
-            <v-btn variant="text" to="/register">
+              </VBtn>
+            </VForm>
+          </VCardText>
+          <VCardActions class="justify-center pb-4">
+            <VBtn variant="text" to="/register">
               Нет аккаунта? Зарегистрироваться
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+            </VBtn>
+          </VCardActions>
+        </VCard>
+      </VCol>
+    </VRow>
 
-    <v-snackbar
+    <VSnackbar
       v-model="snackbar.show"
       :text="snackbar.text"
       location="top right"
       color="error"
       timeout="5000"
     />
-  </v-container>
+  </VContainer>
 </template>
 
 <script setup lang="ts">
@@ -61,7 +61,9 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import type { Login } from "@/types/auth";
 import { getErrorMessage } from "@/utils/validator";
+import { getErrorMessageResponse } from "@/utils/error";
 
+const route = useRoute();
 const { login } = useUserStore();
 
 const form = reactive<Login>({
@@ -74,6 +76,12 @@ const loading = ref(false);
 const snackbar = reactive({
   show: false,
   text: "",
+});
+
+const redirectUrl = computed(() => {
+  const redirect = route.query.redirect as string | undefined;
+  const returnUrl = route.query.returnUrl as string | undefined;
+  return redirect || returnUrl || "/projects";
 });
 
 const rules = {
@@ -96,11 +104,12 @@ const handleSubmit = async () => {
   loading.value = true;
   try {
     await login(form.email, form.password);
-    await navigateTo("/");
+    await navigateTo(redirectUrl.value);
   } catch (error: unknown) {
-    const message = (error as { response: { data: { message: string } } })
-      ?.response?.data?.message;
-    snackbar.text = message || "Произошла ошибка при авторизации";
+    snackbar.text = getErrorMessageResponse(
+      error,
+      "Произошла ошибка при авторизации"
+    );
     snackbar.show = true;
   } finally {
     loading.value = false;

@@ -58,14 +58,15 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import type { Register } from "@/types/auth";
-import { getErrorMessage } from "@/utils/validator";
+import { getErrorMessage, containsDigit } from "@/utils/validator";
+import { getErrorMessageResponse } from "@/utils/error";
 
 const { auth } = useServices();
 
-const form = ref<Register>({
+const form = reactive({
   email: "",
   password: "",
-  name: null,
+  name: null as string | null,
 });
 
 const loading = ref(false);
@@ -93,10 +94,14 @@ const handleSubmit = async () => {
 
   loading.value = true;
   try {
-    await auth.register(form.value);
+    await auth.register(form as Register);
     await navigateTo("/login");
   } catch (error) {
-    console.error("Ошибка регистрации:", error);
+    const message = getErrorMessageResponse(
+      error,
+      "Произошла ошибка при регистрации"
+    );
+    alert(message);
   } finally {
     loading.value = false;
   }

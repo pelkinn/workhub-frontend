@@ -31,9 +31,22 @@
         <VBtn color="primary" variant="text" to="/projects" class="mr-2">
           Мои проекты
         </VBtn>
-        <span class="text-body-1">
-          {{ userStore.user?.name || userStore.user?.email }}
-        </span>
+        <VMenu>
+          <template #activator="{ props }">
+            <span
+              v-bind="props"
+              class="text-body-1 cursor-pointer"
+              style="cursor: pointer"
+            >
+              {{ userStore.user?.name || userStore.user?.email }}
+            </span>
+          </template>
+          <VList>
+            <VListItem @click="handleLogout">
+              <VListItemTitle>Выйти</VListItemTitle>
+            </VListItem>
+          </VList>
+        </VMenu>
       </template>
     </VContainer>
   </VAppBar>
@@ -50,4 +63,9 @@ const theme = useTheme();
 const themeIcon = computed(() => {
   return theme.current.value.dark ? "mdi-weather-sunny" : "mdi-weather-night";
 });
+
+const handleLogout = () => {
+  userStore.logout();
+  navigateTo("/login");
+};
 </script>
