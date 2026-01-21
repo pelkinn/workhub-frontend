@@ -6,6 +6,7 @@ import type {
   Membership,
   ProjectFull,
 } from "@/types/project";
+import type { AuditLog } from "@/types/audit-log";
 
 export class ProjectService {
   constructor(protected api: $Fetch, protected runtimeConfig: RuntimeConfig) {}
@@ -33,5 +34,9 @@ export class ProjectService {
     return this.api(`/projects/${id}`, {
       method: "delete",
     });
+  }
+
+  getAuditLogs(projectId: string) {
+    return this.api<AuditLog[]>(`/projects/${projectId}/audit-logs`);
   }
 }

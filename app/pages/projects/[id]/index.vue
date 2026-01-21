@@ -27,15 +27,25 @@
             <h1 class="text-h3 font-weight-bold">
               {{ project.name }}
             </h1>
-            <VBtn
-              v-if="isOwner"
-              color="error"
-              variant="outlined"
-              prepend-icon="mdi-delete"
-              @click="deleteDialogOpen = true"
-            >
-              Удалить
-            </VBtn>
+            <div class="d-flex ga-2">
+              <VBtn
+                color="primary"
+                variant="outlined"
+                prepend-icon="mdi-history"
+                @click="navigateTo(`/projects/${projectId}/logs`)"
+              >
+                Логи проекта
+              </VBtn>
+              <VBtn
+                v-if="isOwner"
+                color="error"
+                variant="outlined"
+                prepend-icon="mdi-delete"
+                @click="deleteDialogOpen = true"
+              >
+                Удалить
+              </VBtn>
+            </div>
           </div>
 
           <div class="mb-8">

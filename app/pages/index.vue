@@ -3,10 +3,9 @@
     <VRow>
       <VCol cols="12">
         <VCard>
-          <VCardTitle>Vuetify успешно установлен!</VCardTitle>
+          <VCardTitle>Добро пожаловать в WorkHub</VCardTitle>
           <VCardText>
-            <p>Vuetify готов к использованию в вашем Nuxt проекте.</p>
-            <VBtn color="primary" class="mt-4"> Тестовая кнопка </VBtn>
+            <p>Управляйте проектами, задачами и командой в одном месте.</p>
           </VCardText>
         </VCard>
       </VCol>

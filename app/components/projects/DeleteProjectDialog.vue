@@ -8,10 +8,10 @@
       </VCardText>
       <VCardActions>
         <VSpacer />
-        <VBtn variant="text" @click="handleCancel" :disabled="loading">
+        <VBtn variant="text" :disabled="loading" @click="handleCancel">
           Отмена
         </VBtn>
-        <VBtn color="error" variant="flat" @click="handleDelete" :loading="loading">
+        <VBtn color="error" variant="flat" :loading="loading" @click="handleDelete">
           Удалить
         </VBtn>
       </VCardActions>
@@ -52,4 +52,6 @@ const handleDelete = async () => {
   }
 };
 </script>
+
+
 
