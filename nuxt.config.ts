@@ -8,6 +8,18 @@ export default defineNuxtConfig({
   devServer: {
     port: 3001,
   },
+  app: {
+    head: {
+      title: "WorkHub",
+      meta: [
+        {
+          name: "description",
+          content: "WorkHub — платформа для управления задачами и командной работы.",
+        },
+      ],
+      link: [{ rel: "icon", type: "image/png", href: "/favicon.png" }],
+    },
+  },
   devtools: { enabled: false },
   css: ["vuetify/styles", "~/assets/styles/app.scss"],
   runtimeConfig: {
