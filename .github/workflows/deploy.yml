@@ -37,9 +37,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: static-site
-          path: .
+          path: static-site
       - name: List downloaded files
-        run: ls -la .output/public
+        run: ls -la static-site
       - name: Prepare target directory
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -57,5 +57,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          source: .output/public/*
+          source: static-site/*
           target: /opt/workhub/frontend
