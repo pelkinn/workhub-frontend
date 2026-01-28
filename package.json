@@ -19,12 +19,14 @@
     "nuxt": "^4.2.2",
     "pinia": "^3.0.4",
     "qs": "^6.14.1",
-    "sass": "^1.97.2",
     "vue": "^3.5.26",
     "vue-router": "^4.6.4",
     "vuetify": "^3.11.6"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^1.12.1"
+    "@nuxt/eslint": "^1.12.1",
+    "sass": "^1.97.3",
+    "sass-loader": "^16.0.6",
+    "vite-plugin-vuetify": "^2.1.2"
   }
 }

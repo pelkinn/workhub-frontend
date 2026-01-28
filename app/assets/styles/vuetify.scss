@@ -1,0 +1,6 @@
+@use "vuetify/settings" with (
+  // Override Vuetify SASS vars here.
+  $color-pack: true,
+  // $body-font-family: "Manrope, sans-serif",
+  $border-radius-root: 8px
+);

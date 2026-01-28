@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import vuetify from "vite-plugin-vuetify";
+
 export default defineNuxtConfig({
   modules: ["@nuxt/eslint", "@pinia/nuxt"],
   plugins: ["~/plugins/vuetify.client", "~/plugins/api", "~/plugins/init"],
@@ -12,6 +14,13 @@ export default defineNuxtConfig({
   },
   build: {
     transpile: ["vuetify"],
+  },
+  vite: {
+    plugins: [
+      vuetify({
+        styles: { configFile: "assets/styles/vuetify.scss" },
+      }),
+    ],
   },
   compatibilityDate: "2025-07-15",
 });
