@@ -57,5 +57,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          source: static-site/*
+          source: static-site/**
           target: /opt/workhub/frontend
+          strip_components: 1
