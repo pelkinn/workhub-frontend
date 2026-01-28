@@ -27,6 +27,7 @@ jobs:
         with:
           name: static-site
           path: .output/public
+          if-no-files-found: error
 
   deploy:
     needs: build
@@ -36,7 +37,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: static-site
-          path: .output/public
+          path: .
+      - name: List downloaded files
+        run: ls -la .output/public
       - name: Prepare target directory
         uses: appleboy/ssh-action@v1.0.3
         with:
