@@ -1,17 +1,25 @@
 <template>
-  <VContainer>
+  <VContainer class="page-shell">
     <VRow>
       <VCol cols="12">
-        <VCard>
-          <VCardTitle
-            class="text-h5 pa-6 d-flex justify-space-between align-center"
-          >
-            <span>Проекты</span>
-            <VBtn color="primary" @click="showCreateDialog = true">
+        <VCard class="section-card" variant="tonal" rounded="xl">
+          <VCardTitle class="pa-6 d-flex flex-wrap ga-4 align-center">
+            <div>
+              <div class="text-overline text-secondary">Ваши проекты</div>
+              <div class="text-h5">Проекты</div>
+            </div>
+            <VSpacer />
+            <VBtn
+              color="primary"
+              rounded="pill"
+              prepend-icon="mdi-plus"
+              @click="showCreateDialog = true"
+            >
               Создать проект
             </VBtn>
           </VCardTitle>
-          <VCardText>
+          <VDivider />
+          <VCardText class="pa-6">
             <CreateProjectDialog
               v-model="showCreateDialog"
               @created="refresh"
@@ -28,55 +36,65 @@
               {{ getErrorMessageResponse(error) }}
             </VAlert>
 
-            <VList v-else-if="projects && projects.length > 0">
-              <VListItem
+            <div
+              v-else-if="projects && projects.length > 0"
+              class="d-flex flex-column ga-4"
+            >
+              <VCard
                 v-for="project in projects"
                 :key="project.id"
-                :title="project.name"
-                :subtitle="project.description"
-                class="mb-4"
-                style="cursor: pointer"
+                variant="tonal"
+                rounded="lg"
+                class="pa-4 cursor-pointer"
                 @click="navigateTo(`/projects/${project.id}`)"
               >
-                <template #prepend>
-                  <VIcon icon="mdi-folder" class="mr-4" />
-                </template>
-                <template #append>
-                  <div class="d-flex flex-column align-end ga-2">
-                    <div class="d-flex align-center ga-3">
-                      <div class="d-flex align-center ga-1">
-                        <VIcon icon="mdi-account-group" size="small" />
-                        <span class="text-caption">{{
-                          project.membersCount
-                        }}</span>
+                <div class="d-flex flex-column flex-md-row ga-4">
+                  <div class="d-flex align-start ga-3 flex-grow-1">
+                    <VAvatar color="primary" variant="tonal" rounded="lg">
+                      <VIcon icon="mdi-folder-outline" />
+                    </VAvatar>
+                    <div>
+                      <div class="text-h6 mb-1">{{ project.name }}</div>
+                      <div class="text-body-2 text-medium-emphasis">
+                        {{ project.description || "Описание отсутствует" }}
                       </div>
-                      <div class="d-flex align-center ga-1">
-                        <VIcon icon="mdi-format-list-checks" size="small" />
-                        <span class="text-caption">{{
-                          project.tasksCount
-                        }}</span>
-                      </div>
-                    </div>
-                    <div class="d-flex flex-column align-end ga-1">
-                      <div
-                        class="d-flex align-center ga-1 text-caption text-medium-emphasis"
-                      >
-                        <VIcon icon="mdi-calendar-plus" size="x-small" />
-                        <span>Создан: {{ formatDate(project.createdAt) }}</span>
-                      </div>
-                      <div
-                        class="d-flex align-center ga-1 text-caption text-medium-emphasis"
-                      >
-                        <VIcon icon="mdi-calendar-edit" size="x-small" />
-                        <span
-                          >Обновлен: {{ formatDate(project.updatedAt) }}</span
+                      <div class="d-flex flex-wrap ga-2 mt-3">
+                        <VChip
+                          size="small"
+                          color="secondary"
+                          variant="tonal"
+                          prepend-icon="mdi-account-group"
                         >
+                          {{ project.membersCount }} участников
+                        </VChip>
+                        <VChip
+                          size="small"
+                          color="primary"
+                          variant="tonal"
+                          prepend-icon="mdi-format-list-checks"
+                        >
+                          {{ project.tasksCount }} задач
+                        </VChip>
                       </div>
                     </div>
                   </div>
-                </template>
-              </VListItem>
-            </VList>
+                  <div class="d-flex flex-column align-start align-md-end ga-2">
+                    <div
+                      class="d-flex align-center ga-1 text-caption text-medium-emphasis"
+                    >
+                      <VIcon icon="mdi-calendar-plus" size="x-small" />
+                      <span>Создан: {{ formatDate(project.createdAt) }}</span>
+                    </div>
+                    <div
+                      class="d-flex align-center ga-1 text-caption text-medium-emphasis"
+                    >
+                      <VIcon icon="mdi-calendar-edit" size="x-small" />
+                      <span>Обновлен: {{ formatDate(project.updatedAt) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </VCard>
+            </div>
 
             <VAlert v-else type="info" variant="tonal">
               У вас пока нет проектов. Создайте первый проект!

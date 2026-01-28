@@ -5,8 +5,11 @@ export default defineNuxtConfig({
   modules: ["@nuxt/eslint", "@pinia/nuxt"],
   plugins: ["~/plugins/vuetify.client", "~/plugins/api", "~/plugins/init"],
   ssr: false,
+  devServer: {
+    port: 3001,
+  },
   devtools: { enabled: false },
-  css: ["vuetify/styles"],
+  css: ["vuetify/styles", "~/assets/styles/app.scss"],
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000",

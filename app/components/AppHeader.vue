@@ -1,13 +1,19 @@
 <template>
-  <VAppBar elevation="2">
+  <VAppBar elevation="0" flat class="app-header" height="72">
     <VContainer class="d-flex align-center" fluid>
       <VAppBarTitle class="d-flex align-center">
         <NuxtLink to="/" class="d-flex align-center text-decoration-none">
           <img
-            :src="logoUrl"
+            v-if="theme.current.value.dark"
+            src="~/assets/workhub_logo.webp"
             alt="WorkHub"
-            class="mr-3"
-            style="height: 40px; width: 40px"
+            class="logo"
+          />
+          <img
+            v-else
+            src="~/assets/workhub_logo_light.webp"
+            alt="WorkHub"
+            class="logo"
           />
         </NuxtLink>
       </VAppBarTitle>
@@ -23,23 +29,37 @@
         <VIcon>{{ themeIcon }}</VIcon>
       </VBtn>
 
-      <VBtn v-if="!userStore.isLoggedIn" color="secondary" to="/login">
+      <VBtn
+        v-if="!userStore.isLoggedIn"
+        color="primary"
+        variant="flat"
+        rounded="pill"
+        to="/login"
+      >
         Войти
       </VBtn>
 
       <template v-else>
-        <VBtn color="primary" variant="text" to="/projects" class="mr-2">
+        <VBtn
+          color="primary"
+          variant="tonal"
+          rounded="pill"
+          to="/projects"
+          class="mr-2"
+        >
           Мои проекты
         </VBtn>
         <VMenu>
           <template #activator="{ props }">
-            <span
+            <VChip
               v-bind="props"
-              class="text-body-1 cursor-pointer"
-              style="cursor: pointer"
+              color="secondary"
+              variant="tonal"
+              label
+              class="cursor-pointer"
             >
               {{ userStore.user?.name || userStore.user?.email }}
-            </span>
+            </VChip>
           </template>
           <VList>
             <VListItem @click="handleLogout">
@@ -53,7 +73,6 @@
 </template>
 
 <script setup lang="ts">
-import logoUrl from "~/assets/logo.svg";
 import { useTheme } from "vuetify";
 import { computed } from "vue";
 
@@ -69,3 +88,9 @@ const handleLogout = () => {
   navigateTo("/login");
 };
 </script>
+
+<style scoped>
+.logo {
+  height: 40px;
+}
+</style>

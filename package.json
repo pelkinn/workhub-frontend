@@ -12,6 +12,7 @@
     "lint:fix": "nuxt lint --fix"
   },
   "dependencies": {
+    "@fontsource/space-grotesk": "^5.2.10",
     "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.11.3",
     "@vuelidate/core": "^2.0.3",

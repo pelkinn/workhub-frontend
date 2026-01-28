@@ -1,14 +1,14 @@
 <template>
-  <VContainer class="py-8">
+  <VContainer class="page-shell">
     <VRow>
       <VCol cols="12">
         <VBtn
           variant="text"
           prepend-icon="mdi-arrow-left"
-          class="mb-6"
+          class="mb-6 back-link"
           @click="navigateTo('/projects')"
         >
-          НАЗАД К ПРОЕКТАМ
+          Назад к проектам
         </VBtn>
 
         <VProgressLinear
@@ -23,74 +23,97 @@
         </VAlert>
 
         <div v-if="!projectPending && project">
-          <div class="d-flex justify-space-between align-center mb-8">
-            <h1 class="text-h3 font-weight-bold">
-              {{ project.name }}
-            </h1>
-            <div class="d-flex ga-2">
-              <VBtn
-                color="primary"
-                variant="outlined"
-                prepend-icon="mdi-history"
-                @click="navigateTo(`/projects/${projectId}/logs`)"
-              >
-                Логи проекта
-              </VBtn>
-              <VBtn
-                v-if="isOwner"
-                color="error"
-                variant="outlined"
-                prepend-icon="mdi-delete"
-                @click="deleteDialogOpen = true"
-              >
-                Удалить
-              </VBtn>
+          <VSheet class="hero-card pa-6 pa-md-8 mb-8" rounded="xl">
+            <div
+              class="d-flex flex-column flex-md-row justify-space-between align-start ga-6"
+            >
+              <div>
+                <div class="text-overline text-secondary mb-2">
+                  Проект
+                </div>
+                <h1 class="text-h3 text-md-h2 font-weight-bold mb-2">
+                  {{ project.name }}
+                </h1>
+                <p class="text-body-1 text-medium-emphasis">
+                  {{ project.description || "Описание отсутствует" }}
+                </p>
+              </div>
+              <div class="d-flex flex-wrap ga-2">
+                <VBtn
+                  color="primary"
+                  variant="flat"
+                  rounded="pill"
+                  prepend-icon="mdi-history"
+                  @click="navigateTo(`/projects/${projectId}/logs`)"
+                >
+                  Логи проекта
+                </VBtn>
+                <VBtn
+                  v-if="isOwner"
+                  color="error"
+                  variant="tonal"
+                  rounded="pill"
+                  prepend-icon="mdi-delete"
+                  @click="deleteDialogOpen = true"
+                >
+                  Удалить
+                </VBtn>
+              </div>
             </div>
-          </div>
 
-          <div class="mb-8">
-            <h2 class="text-h6 mb-4">Описание</h2>
-            <p class="text-body-1 text-medium-emphasis">
-              {{ project.description || "Описание отсутствует" }}
-            </p>
-          </div>
-
-          <VRow class="mb-8">
-            <VCol cols="12" md="6">
-              <div class="d-flex align-center ga-3">
-                <VIcon icon="mdi-calendar-plus" size="large" color="primary" />
-                <div>
-                  <div class="text-caption text-medium-emphasis mb-1">
-                    Дата создания
+            <VRow class="mt-6">
+              <VCol cols="12" md="6">
+                <VSheet class="meta-card pa-4" rounded="lg">
+                  <div class="d-flex align-center ga-3">
+                    <VIcon
+                      icon="mdi-calendar-plus"
+                      size="large"
+                      color="primary"
+                    />
+                    <div>
+                      <div class="text-caption text-medium-emphasis mb-1">
+                        Дата создания
+                      </div>
+                      <div class="text-body-1 font-weight-medium">
+                        {{ formatDate(project.createdAt) }}
+                      </div>
+                    </div>
                   </div>
-                  <div class="text-body-1 font-weight-medium">
-                    {{ formatDate(project.createdAt) }}
+                </VSheet>
+              </VCol>
+              <VCol cols="12" md="6">
+                <VSheet class="meta-card pa-4" rounded="lg">
+                  <div class="d-flex align-center ga-3">
+                    <VIcon
+                      icon="mdi-calendar-edit"
+                      size="large"
+                      color="primary"
+                    />
+                    <div>
+                      <div class="text-caption text-medium-emphasis mb-1">
+                        Дата обновления
+                      </div>
+                      <div class="text-body-1 font-weight-medium">
+                        {{ formatDate(project.updatedAt) }}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </VCol>
-            <VCol cols="12" md="6">
-              <div class="d-flex align-center ga-3">
-                <VIcon icon="mdi-calendar-edit" size="large" color="primary" />
-                <div>
-                  <div class="text-caption text-medium-emphasis mb-1">
-                    Дата обновления
-                  </div>
-                  <div class="text-body-1 font-weight-medium">
-                    {{ formatDate(project.updatedAt) }}
-                  </div>
-                </div>
-              </div>
-            </VCol>
-          </VRow>
+                </VSheet>
+              </VCol>
+            </VRow>
+          </VSheet>
 
-          <VDivider class="my-8" />
+          <VCard class="section-card mb-8" variant="tonal">
+            <VCardText>
+              <MemberShipsSection :project-id="projectId" />
+            </VCardText>
+          </VCard>
 
-          <MemberShipsSection :project-id="projectId" />
-
-          <VDivider class="my-8" />
-
-          <TasksSection :project-id="projectId" />
+          <VCard class="section-card" variant="tonal">
+            <VCardText>
+              <TasksSection :project-id="projectId" />
+            </VCardText>
+          </VCard>
         </div>
       </VCol>
     </VRow>
@@ -137,3 +160,9 @@ const handleDeleteSuccess = async () => {
   await navigateTo("/projects");
 };
 </script>
+
+<style scoped>
+.back-link {
+  letter-spacing: 0.08em;
+}
+</style>

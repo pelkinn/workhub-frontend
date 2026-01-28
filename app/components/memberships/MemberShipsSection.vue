@@ -1,6 +1,6 @@
 <template>
   <VCard variant="flat" color="transparent">
-    <VCardTitle class="d-flex justify-space-between align-center px-0 pb-4">
+    <VCardTitle class="d-flex justify-space-between align-center px-2 pb-4">
       <div class="d-flex align-center ga-3">
         <VAvatar color="primary" variant="tonal" size="40" rounded="lg">
           <VIcon icon="mdi-account-group" />
@@ -8,7 +8,8 @@
         <div>
           <div class="text-h6">Участники</div>
           <div class="text-caption text-medium-emphasis">
-            {{ memberships?.length || 0 }} {{ getMembersCountText(memberships?.length || 0) }}
+            {{ memberships?.length || 0 }}
+            {{ getMembersCountText(memberships?.length || 0) }}
           </div>
         </div>
       </div>
@@ -16,6 +17,7 @@
         v-if="canInvite"
         color="primary"
         variant="flat"
+        rounded="pill"
         prepend-icon="mdi-account-plus"
         @click="invitationDialogOpen = true"
       >
@@ -26,25 +28,28 @@
     <VDivider class="mb-4" />
 
     <VCardText class="pa-0">
-      <div v-if="membershipsPending" class="d-flex flex-column align-center py-8 ga-4">
+      <div
+        v-if="membershipsPending"
+        class="d-flex flex-column align-center py-8 ga-4"
+      >
         <VProgressCircular indeterminate color="primary" size="40" />
         <span class="text-body-2 text-medium-emphasis">Загрузка...</span>
       </div>
 
-      <VAlert
-        v-else-if="membershipsError"
-        type="error"
-        variant="tonal"
-      >
+      <VAlert v-else-if="membershipsError" type="error" variant="tonal">
         {{ getErrorMessageResponse(membershipsError) }}
       </VAlert>
 
-      <VList v-else-if="memberships && memberships.length > 0" lines="two" bg-color="transparent">
+      <VList
+        v-else-if="memberships && memberships.length > 0"
+        lines="two"
+        bg-color="transparent"
+      >
         <VListItem
           v-for="membership in memberships"
           :key="membership.id"
           rounded="lg"
-          class="mb-2"
+          class="mb-2 member-item"
         >
           <template #prepend>
             <VAvatar
@@ -80,7 +85,12 @@
         </VListItem>
       </VList>
 
-      <VAlert v-else type="info" variant="tonal" icon="mdi-account-multiple-outline">
+      <VAlert
+        v-else
+        type="info"
+        variant="tonal"
+        icon="mdi-account-multiple-outline"
+      >
         <VAlertTitle>Пока нет участников</VAlertTitle>
         Пригласите коллег для совместной работы
       </VAlert>
@@ -116,13 +126,13 @@ const {
   error: membershipsError,
   refresh: refreshMemberships,
 } = useAsyncData<Membership[]>(`project-memberships-${props.projectId}`, () =>
-  projectService.getMemberships(props.projectId)
+  projectService.getMemberships(props.projectId),
 );
 
 const canInvite = computed(() => {
   if (!userStore.user || !memberships.value) return false;
   const userMembership = memberships.value.find(
-    (m: Membership) => m.userId === userStore.user?.id
+    (m: Membership) => m.userId === userStore.user?.id,
   );
   return (
     userMembership?.role === MembershipRole.OWNER ||
@@ -176,3 +186,10 @@ const getRoleIcon = (role: MembershipRole) => {
   return iconMap[role] || "mdi-account";
 };
 </script>
+
+<style scoped>
+.member-item {
+  background: rgba(var(--v-theme-surface), 0.5);
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.06);
+}
+</style>

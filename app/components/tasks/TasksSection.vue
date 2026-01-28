@@ -6,9 +6,10 @@
         color="primary"
         prepend-icon="mdi-plus"
         size="large"
+        rounded="pill"
         @click="dialogOpen = true"
       >
-        СОЗДАТЬ ЗАДАЧУ
+        Создать задачу
       </VBtn>
     </div>
     <div v-if="tasksPending" class="d-flex justify-center py-8">
@@ -21,8 +22,9 @@
       <VCard
         v-for="task in tasks"
         :key="task.id"
-        variant="outlined"
-        class="pa-4"
+        variant="tonal"
+        class="pa-4 task-card"
+        rounded="lg"
       >
         <div class="d-flex ga-4">
           <div class="d-flex align-start pt-1">

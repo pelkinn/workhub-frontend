@@ -12,41 +12,39 @@ export default defineNuxtPlugin((nuxtApp) => {
       themes: {
         dark: {
           colors: {
-            primary: "#22D3EE",
-
-            background: "#020617",
-            surface: "#020617",
-
-            "on-background": "#E5E7EB",
-            "on-surface": "#E5E7EB",
-
-            secondary: "#22D3EE",
-            "on-secondary": "#020617",
-
+            primary: "#A3E635",
+            "on-primary": "#151A0A",
+            secondary: "#F59E0B",
+            "on-secondary": "#1A1205",
+            background: "#141412",
+            surface: "#1A1914",
+            "surface-variant": "#27251E",
+            "on-background": "#F1F0E8",
+            "on-surface": "#F1F0E8",
+            outline: "#3A352A",
             success: "#22C55E",
             warning: "#F59E0B",
             error: "#F87171",
-            info: "#38BDF8",
+            info: "#84CC16",
           },
         },
         light: {
           dark: false,
           colors: {
-            primary: "#22D3EE",
-
+            primary: "#0F766E",
+            "on-primary": "#FFFFFF",
+            secondary: "#B45309",
+            "on-secondary": "#FFFFFF",
             background: "#F8FAFC",
             surface: "#FFFFFF",
-
-            "on-background": "#020617",
-            "on-surface": "#020617",
-
-            secondary: "#22D3EE",
-            "on-secondary": "#FFFFFF",
-
-            success: "#22C55E",
-            warning: "#F59E0B",
-            error: "#EF4444",
-            info: "#38BDF8",
+            "surface-variant": "#E2E8F0",
+            "on-background": "#0F172A",
+            "on-surface": "#0F172A",
+            outline: "#CBD5F5",
+            success: "#16A34A",
+            warning: "#D97706",
+            error: "#DC2626",
+            info: "#0284C7",
           },
         },
       },

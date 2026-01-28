@@ -1,0 +1,49 @@
+@use "@fontsource/space-grotesk/index.css";
+
+body .v-application {
+  background:
+    radial-gradient(
+      1100px 600px at 18% -12%,
+      rgba(var(--v-theme-primary), 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 520px at 88% 8%,
+      rgba(var(--v-theme-secondary), 0.1),
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(var(--v-theme-background)),
+      rgb(var(--v-theme-surface))
+    );
+  background-attachment: fixed;
+}
+
+.v-main {
+  background: transparent;
+}
+
+.app-header {
+  backdrop-filter: blur(14px);
+  background: rgba(var(--v-theme-surface), 0.7) !important;
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}
+
+.page-shell {
+  padding-top: 88px;
+  padding-bottom: 96px;
+}
+
+.hero-card,
+.section-card,
+.task-card,
+.meta-card {
+  background: linear-gradient(
+    140deg,
+    rgba(var(--v-theme-surface-variant), 0.9),
+    rgba(var(--v-theme-surface), 0.8)
+  ) !important;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.1);
+  backdrop-filter: blur(8px);
+}

@@ -1,6 +1,43 @@
+$fontGrotesk:
+  Space Grotesk,
+  sans-serif;
+$borderRadiusRoot: 16px;
+
 @use "vuetify/settings" with (
   // Override Vuetify SASS vars here.
   $color-pack: true,
-  // $body-font-family: "Manrope, sans-serif",
-  $border-radius-root: 8px
+  $body-font-family: $fontGrotesk,
+  $heading-font-family: $fontGrotesk,
+  $border-radius-root: $borderRadiusRoot,
+  $typography: (
+    "h1": (
+      "weight": 700,
+      "letter-spacing": -0.02em,
+    ),
+    "h2": (
+      "weight": 700,
+      "letter-spacing": -0.02em,
+    ),
+    "h3": (
+      "weight": 700,
+    ),
+    "h4": (
+      "weight": 600,
+    ),
+    "button": (
+      "weight": 600,
+      "letter-spacing": 0.04em,
+      "text-transform": none,
+    )
+  ),
+  $rounded: (
+    0: 0,
+    "sm": $borderRadiusRoot * 0.5,
+    null: $borderRadiusRoot,
+    "lg": $borderRadiusRoot * 2,
+    "xl": $borderRadiusRoot * 4,
+    "pill": 9999px,
+    "circle": 50%,
+    "shaped": $borderRadiusRoot * 6 0
+  )
 );
