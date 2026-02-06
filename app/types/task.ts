@@ -10,7 +10,7 @@ export interface Task {
 
 export interface CreateTask {
   title: string;
-  description: string;
+  description?: string;
   deadline?: string | null;
 }
 
@@ -19,4 +19,10 @@ export interface UpdateTask {
   title?: string;
   description?: string;
   deadline?: string | null;
+}
+
+export interface ExtendedTask extends Task {
+  assigneeId: string | null;
+  priority: "low" | "medium" | "high";
+  tags: string[];
 }

@@ -160,11 +160,6 @@ const rules = {
     minLength: helpers.withMessage("Минимум 3 символа", minLength(3)),
     maxLength: helpers.withMessage("Максимум 500 символов", maxLength(500)),
   },
-  description: {
-    required: helpers.withMessage("Обязательное поле", required),
-    minLength: helpers.withMessage("Минимум 3 символа", minLength(3)),
-    maxLength: helpers.withMessage("Максимум 5000 символов", maxLength(5000)),
-  },
 };
 
 const v$ = useVuelidate(rules, form);
@@ -262,7 +257,7 @@ watch(
     } else if (newValue && props.initialTask) {
       initializeForm();
     }
-  }
+  },
 );
 
 watch(
@@ -272,6 +267,6 @@ watch(
       initializeForm();
     }
   },
-  { deep: true }
+  { deep: true },
 );
 </script>
